@@ -1,25 +1,9 @@
 import streamlit as st
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from xgboost import XGBRegressor
 import joblib
 
-# Load dataset
-data = pd.read_csv("supply_chain_data.csv")
-
-# Features and target
-X = data[['Price', 'Availability', 'Stock levels']]
-y = data['Order quantities']
-
-# Train model
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
-
-model = XGBRegressor()
-model.fit(X_train, y_train)
-
-joblib.dump(model, "model.pkl")
+# Load trained model
+model = joblib.load("model.pkl")
 
 # ================= UI ================= #
 
@@ -28,10 +12,7 @@ st.subheader("Predict Product Demand using Machine Learning")
 
 # Sidebar
 st.sidebar.title("⚙️ Controls")
-st.sidebar.write("Use this app to predict product demand using AI")
-
-# ================= GRAPHS ================= #
-
+st.sidebar.write("Enter product details to predict demand")
 
 # ================= INPUT ================= #
 
@@ -58,20 +39,15 @@ if st.button("🔍 Predict Demand"):
 
 st.markdown("## 📁 Upload CSV for Bulk Prediction")
 
-uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+uploaded_file = st.file_uploader("Upload CSV", type=["csv"])
 
 if uploaded_file is not None:
     new_data = pd.read_csv(uploaded_file)
     
-    st.write("Uploaded Data:")
-    st.write(new_data.head())
-
     try:
         predictions = model.predict(new_data[['Price', 'Availability', 'Stock levels']])
         new_data['Predicted Demand'] = predictions
         
-        st.write("Predictions:")
         st.write(new_data)
-
     except:
-        st.error("❌ Error: Make sure your CSV has correct columns")
+        st.error("❌ CSV must contain: Price, Availability, Stock levels")

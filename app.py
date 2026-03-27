@@ -32,28 +32,6 @@ st.sidebar.write("Use this app to predict product demand using AI")
 
 # ================= GRAPHS ================= #
 
-st.markdown("## 📊 Data Insights")
-
-# Graph 1: Distribution
-fig1, ax1 = plt.subplots()
-data['Order quantities'].hist(ax=ax1)
-
-ax1.set_title("Order Quantity Distribution")
-ax1.set_xlabel("Order Quantity")
-ax1.set_ylabel("Frequency")
-
-st.pyplot(fig1)
-
-# Graph 2: Scatter
-fig2, ax2 = plt.subplots()
-
-ax2.scatter(data['Stock levels'], data['Order quantities'])
-
-ax2.set_xlabel("Stock Levels")
-ax2.set_ylabel("Order Quantities")
-ax2.set_title("Stock vs Demand")
-
-st.pyplot(fig2)
 
 # ================= INPUT ================= #
 

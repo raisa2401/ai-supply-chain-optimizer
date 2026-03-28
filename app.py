@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 from xgboost import XGBRegressor
 
 # Load dataset
-data = pd.read_csv("data/supply_chain_data.csv")
+data = pd.read_csv("supply_chain_data.csv")
 
 # Features and target
 X = data[['Price', 'Availability', 'Stock levels']]
